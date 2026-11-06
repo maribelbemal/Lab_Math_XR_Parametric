@@ -14,23 +14,55 @@
       <div class="sidebar-scroll">
         <div class="eyebrow">01 / ECUACIÓN</div>
         <h1>Diseña una superficie</h1>
-        <p class="help">Escribe una función de dos variables y observa su geometría en tres dimensiones.</p>
+        <p class="help">Elige una representación y observa su geometría en tres dimensiones.</p>
+        <div class="surface-tabs" role="tablist" aria-label="Tipo de superficie">
+          <button id="tab-explicit" class="surface-tab active" type="button" role="tab" aria-selected="true">Explícitas</button>
+          <button id="tab-parametric" class="surface-tab" type="button" role="tab" aria-selected="false">Paramétricas</button>
+        </div>
         <form id="equation-form">
-          <label for="equation">Superficie <span class="formula-tag">z = f(x, y)</span></label>
-          <div class="formula-field"><span class="prefix">z =</span><input id="equation" spellcheck="false" autocomplete="off" value="sin(1.5*x)*cos(1.5*y)" aria-label="Ecuación para z" /></div>
+          <div id="explicit-fields">
+            <label for="equation">Superficie <span class="formula-tag">z = f(x, y)</span></label>
+            <div class="formula-field"><span class="prefix">z =</span><input id="equation" spellcheck="false" autocomplete="off" value="sin(1.5*x)*cos(1.5*y)" aria-label="Ecuación para z" /></div>
+          </div>
+          <div id="parametric-fields" class="hidden">
+            <div class="section-title">Componentes de la parametrización</div>
+            <label for="param-x">Coordenada x(u, v)</label>
+            <div class="formula-field"><span class="prefix">x =</span><input id="param-x" spellcheck="false" autocomplete="off" value="cos(u)*cos(v)" aria-label="Coordenada x en función de u y v" /></div>
+            <label for="param-y">Coordenada y(u, v)</label>
+            <div class="formula-field"><span class="prefix">y =</span><input id="param-y" spellcheck="false" autocomplete="off" value="sin(u)*cos(v)" aria-label="Coordenada y en función de u y v" /></div>
+            <label for="param-z">Coordenada z(u, v)</label>
+            <div class="formula-field"><span class="prefix">z =</span><input id="param-z" spellcheck="false" autocomplete="off" value="sin(v)" aria-label="Coordenada z en función de u y v" /></div>
+            <div class="parameter-bounds">
+              <div><label for="u-min">u mínimo</label><input id="u-min" type="number" step="any" value="-3.141593" /></div>
+              <div><label for="u-max">u máximo</label><input id="u-max" type="number" step="any" value="3.141593" /></div>
+              <div><label for="v-min">v mínimo</label><input id="v-min" type="number" step="any" value="-1.570796" /></div>
+              <div><label for="v-max">v máximo</label><input id="v-max" type="number" step="any" value="1.570796" /></div>
+            </div>
+          </div>
           <button class="primary" type="submit"><span>↗</span> Representar superficie</button>
         </form>
         <div id="feedback" class="feedback" role="status" aria-live="polite">Superficie generada correctamente.</div>
-        <div class="preset-label">EJEMPLOS PARA PROBAR</div>
-        <div class="presets" id="presets">
-          <button type="button" data-expression="sin(1.5*x)*cos(1.5*y)">Ondas</button>
-          <button type="button" data-expression="x^2-y^2">Silla de montar</button>
-          <button type="button" data-expression="2*exp(-(x^2+y^2))">Gaussiana</button>
-          <button type="button" data-expression="sin(3*sqrt(x^2+y^2))">Ondas circulares</button>
-          <button type="button" data-expression="sqrt(9-x^2-y^2)">Semiesfera</button>
-          <button type="button" data-expression="A*sin(k*x)*cos(k*y)">Parámetros A, k</button>
+        <div id="explicit-presets">
+          <div class="preset-label">EJEMPLOS EXPLÍCITOS</div>
+          <div class="presets">
+            <button type="button" data-expression="sin(1.5*x)*cos(1.5*y)">Ondas</button>
+            <button type="button" data-expression="x^2-y^2">Silla de montar</button>
+            <button type="button" data-expression="2*exp(-(x^2+y^2))">Gaussiana</button>
+            <button type="button" data-expression="sin(3*sqrt(x^2+y^2))">Ondas circulares</button>
+            <button type="button" data-expression="sqrt(9-x^2-y^2)">Semiesfera</button>
+            <button type="button" data-expression="A*sin(k*x)*cos(k*y)">Parámetros A, k</button>
+          </div>
         </div>
-        <div id="params-section" class="params-section hidden"><div class="section-title">Parámetros</div><div id="params"></div></div>
+        <div id="parametric-presets" class="hidden">
+          <div class="preset-label">EJEMPLOS PARAMÉTRICOS</div>
+          <div class="presets">
+            <button type="button" data-x="u" data-y="v" data-z="0" data-umin="-3.141593" data-umax="3.141593" data-vmin="-3.141593" data-vmax="3.141593">Plano</button>
+            <button type="button" data-x="2*sin(u)*cos(v)" data-y="2*sin(u)*sin(v)" data-z="2*cos(u)" data-umin="0" data-umax="3.141593" data-vmin="0" data-vmax="6.283186">Esfera</button>
+            <button type="button" data-x="u*cos(v)" data-y="u*sin(v)" data-z="v/3" data-umin="-2" data-umax="2" data-vmin="-6.283186" data-vmax="6.283186">Helicoide</button>
+            <button type="button" data-x="(2+0.6*cos(v))*cos(u)" data-y="(2+0.6*cos(v))*sin(u)" data-z="0.6*sin(v)" data-umin="0" data-umax="6.283186" data-vmin="0" data-vmax="6.283186">Toro</button>
+          </div>
+        </div>
+        <div id="params-section" class="params-section hidden"><div class="section-title">Parámetros libres</div><div id="params"></div></div>
         <div class="separator"></div>
         <div class="eyebrow">02 / VISUALIZACIÓN</div>
         <div class="field-head"><label for="domain">Extensión de los ejes</label><output id="domain-label">±5</output></div>
@@ -45,7 +77,7 @@
         <select id="palette"><option value="0">Azul ↔ coral</option><option value="1">Turquesa ↔ dorado</option><option value="2">Violeta ↔ rosa</option><option value="3">Monocromática</option></select>
         <div class="toggles"><label class="toggle"><input id="axes" type="checkbox" checked /> Mostrar ejes</label><label class="toggle"><input id="grid" type="checkbox" checked /> Mostrar plano de referencia</label></div>
         <div class="separator"></div>
-        <div class="small-note"><strong>Consejo</strong><span>Admite sin, cos, exp, sqrt, log, abs, potencias con ^ y constantes pi, e. Multiplica usando * y usa radianes.</span></div>
+        <div class="small-note"><strong>Consejo</strong><span>Admite sin, cos, exp, sqrt, log, abs, potencias con ^ y constantes pi, e. Multiplica usando * y usa radianes. En paramétricas, u y v recorren los intervalos indicados.</span></div>
       </div>
       <div class="sidebar-bottom"><span class="dot"></span> Prototipo local · sin cuentas ni dependencias</div>
     </aside>
