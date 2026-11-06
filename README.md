@@ -1,4 +1,4 @@
-🌐 **[Abrir Lab Math XR — aplicación web](https://enriquegarmac.github.io/Lab_Math_XR/)**
+🌐 **[Abrir Lab Math XR — aplicación web](https://maribelbemal.github.io/Lab_Math_XR_Parametric/)**
 
 > Acceso directo desde el navegador, también desde Meta Quest 3. Sin instalar nada.
 
