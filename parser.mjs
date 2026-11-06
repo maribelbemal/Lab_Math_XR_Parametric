@@ -91,4 +91,3 @@ export function parseSurfaceEquation(input, coordinateVariables=['x','y']) {
   }
   return {expression:src, parameters:[...vars], evaluate:compile(tree)};
 }
-if(!coordinateVariables.includes(t))vars.add(t);
